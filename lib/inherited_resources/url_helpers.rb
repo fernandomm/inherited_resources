@@ -220,13 +220,13 @@ module InheritedResources
         protected
           undef :#{prefix}#{name}_path if method_defined? :#{prefix}#{name}_path
           def #{prefix}#{name}_path(*given_args)
-            given_options = given_args.extract_options!
+            given_options = given_args.collect { |arg| arg.is_a?(ActionController::Parameters) ? arg.to_h : arg }.extract_options!
             #{prefix}#{segments}_path(#{ivars})
           end
 
           undef :#{prefix}#{name}_url if method_defined? :#{prefix}#{name}_url
           def #{prefix}#{name}_url(*given_args)
-            given_options = given_args.extract_options!
+            given_options = given_args.collect { |arg| arg.is_a?(ActionController::Parameters) ? arg.to_h : arg }.extract_options!
             #{prefix}#{segments}_url(#{ivars})
           end
       URL_HELPERS
